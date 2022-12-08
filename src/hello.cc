@@ -5,17 +5,15 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-    cout << "Moin! Hier ist ein kleiner Summierer mit CLI11 geflagt!" << "\n";
+    cout << "Moin! Hier ist ein kleiner Summierer mit CLI11!" << "\n";
 
-    CLI::App app{"Hier steht Ihre Werbung! Kekw"};
+    CLI::App app{"Hier steht Ihre Werbung!"};
 
     int erste = 0, zweite = 0, summe = 0;
 
-    std::string filename = "default";
+    string filename = "default";
 
-    app.add_option("-f,--file", filename, "A help string");
-
-    app.add_option("-e,--zahl1", erste, "A help string");
+    app.add_option("-e,--erste_zahl", erste, "A help string");
 
     app.add_option("-z,--zweite_zahl", zweite, "A help string");
 

@@ -11,8 +11,6 @@ int main(int argc, char** argv) {
 
     int erste = 0, zweite = 0, summe = 0;
 
-    string filename = "default";
-
     app.add_option("-e,--erste_zahl", erste, "A help string");
 
     app.add_option("-z,--zweite_zahl", zweite, "A help string");

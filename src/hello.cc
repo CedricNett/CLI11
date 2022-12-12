@@ -23,6 +23,11 @@ int main(int argc, char** argv) {
 
     app.add_option("-z,--zweite_zahl", zweite, "A help string");
 
+    string filepath;
+    app.add_option("-r,--read", filepath,"Path to config file")
+        ->required()
+        ->check(CLI::ExistingFile);
+
     CLI11_PARSE(app, argc, argv);
 
     summe = erste + zweite;
@@ -30,11 +35,6 @@ int main(int argc, char** argv) {
     cout << erste << " + " << zweite << " = " << summe << "\n"; 
 
     cout << filename << "\n";
-
-    string filepath;
-    app.add_option("-r,--read", filepath,"Path to config file")
-        ->required()
-        ->check(CLI::ExistingFile);
 
     ifstream file{filepath};
 

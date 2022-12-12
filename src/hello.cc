@@ -4,18 +4,17 @@
 #include <fstream>
 #include <string>
 
-using namespace std;
 using json = nlohmann::json;
 
 int main(int argc, char** argv) {
 
-    cout << "Moin! Hier ist ein kleiner Summierer mit CLI11!" << "\n";
+    std::cout << "Moin! Hier ist ein kleiner Summierer mit CLI11!" << "\n";
 
     CLI::App app{"Schreibe: -r test.json ,um den Inhalt einzulesen und ausgeben zu lassen \nUm einen filename einzugeben schreibe: -f ... \nUm eine Rechung durchzuführen schreibe: -e .. -z .."};
 
     int erste = 0, zweite = 0, summe = 0;
 
-    string filename = "default";
+    std::string filename = "default";
 
     app.add_option("-f,--file", filename, "A help string"); //Lese einen filename ein
 
@@ -23,22 +22,29 @@ int main(int argc, char** argv) {
 
     app.add_option("-z,--zweite_zahl", zweite, "A help string"); //Füge eine zweite Zahl hinzu
 
-    string filepath;
+    std::string filepath;
+
     app.add_option("-r,--read", filepath,"Path to config file") //Lese eine Datei ein
         ->required()
         ->check(CLI::ExistingFile);
 
-    CLI11_PARSE(app, argc, argv);
+    try{
+        app.parse(argc, argv);
+    }
+
+    catch(const CLI::ParseError &e){
+        return app.exit(e);
+    }
 
     summe = erste + zweite;
 
-    cout << erste << " + " << zweite << " = " << summe << "\n"; //Addiere die beiden hinzugefügten Zahlen
+    std::cout << erste << " + " << zweite << " = " << summe << "\n"; //Addiere die beiden hinzugefügten Zahlen
 
-    cout << filename << "\n";
+    std::cout << filename << "\n";
 
-    ifstream file{filepath};
+    std::ifstream file{filepath};
 
-    if(!file.is_open()){ //Lässt sich die Datei öffnen?
+    if(!file.is_open()){ //Wenn die Datei nicht geöffnet werden kann, dann gib Error aus und brich ab
         cout << "Error opening file!\n";
         exit(0);
     }
@@ -47,7 +53,7 @@ int main(int argc, char** argv) {
 
     file >> FileToJson;
 
-    cout << FileToJson.dump() << "\n"; //Gebe den Inhalt der Datei aus
+    std::cout << FileToJson.dump() << "\n"; //Gebe den Inhalt der Datei aus
 
     return 0;
 }

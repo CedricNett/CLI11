@@ -1,0 +1,4 @@
+Moin! Hier ist ein kleiner Summierer mit CLI11!
+5 + 9 = 14
+Moin
+{"host":"host","id":1,"loginName":"Name"}

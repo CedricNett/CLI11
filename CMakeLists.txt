@@ -19,5 +19,17 @@ if(NOT cli11_FOUND)
     FetchContent_MakeAvailable(cli11)
 endif()
 
+# Add nlohmann.json #https://json.nlohmann.me/integration/cmake/#supporting-both
+find_package(json QUIET)
+if(NOT json_FOUND)
+    include(FetchContent)
+    FetchContent_Declare(
+        json
+        GIT_REPOSITORY https://github.com/nlohmann/json
+        GIT_TAG v3.11.2
+)
+    FetchContent_MakeAvailable(json)
+endif()
+
 add_executable( ${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/src/hello.cc" ) 
 target_link_libraries( ${PROJECT_NAME} CLI11::CLI11 )

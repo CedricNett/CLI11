@@ -1,13 +1,15 @@
 #include <CLI/CLI.hpp>
 #include <iostream>
+#include "json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 int main(int argc, char** argv) {
 
     cout << "Moin! Hier ist ein kleiner Summierer mit CLI11!" << "\n";
 
-    CLI::App app{"Hier steht Ihre Werbung!"};
+    CLI::App app{"Um einen filename einzugeben schreibe: -f ... \nUm eine Rechung durchzuführen schreibe: -e .. -z .."};
 
     int erste = 0, zweite = 0, summe = 0;
 
@@ -23,7 +25,9 @@ int main(int argc, char** argv) {
 
     summe = erste + zweite;
 
-    cout << erste << " + " << zweite << " = " << summe << "\n";
+    cout << erste << " + " << zweite << " = " << summe << "\n"; 
+
+    cout << filename << "\n";
 
     return 0;
 }

@@ -1,4 +1,0 @@
-Moin! Hier ist ein kleiner Summierer mit CLI11!
-5 + 9 = 14
-Moin
-{"Lagerhalterungssystem":[{"Bands":["Pink Floyd","Aerosmith","Don McLean","Depeche Mode"],"CDs":"Bands"},{"Größe":"XL","Gründe":["Gemütlich","Preiswert","Style","Einfach Gute Werbung",":D"],"Marke":"Arlows","Preis":"70€"},{"Fahrzeugtyp":"Kombi","Marke":"Audi","Modell":"A4","Preis":"Was letzte Preis","Stammtischwerte":["A4 B9","150 PS","Goodwood Grün <3","Gut für Lange Reisen","Pempersbomber"]}],"Version":"Version 1.0"}

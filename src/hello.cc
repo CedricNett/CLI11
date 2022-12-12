@@ -31,6 +31,11 @@ int main(int argc, char** argv) {
 
     cout << filename << "\n";
 
+    string filepath;
+    app.add_option("-r,--read", filepath,"Path to config file")
+        ->required()
+        ->check(CLI::ExistingFile);
+
     ifstream file{filepath};
 
     if(!file.is_open()){
@@ -39,7 +44,7 @@ int main(int argc, char** argv) {
     }
 
     json FileToJson;
-    
+
     file >> FileToJson;
 
     cout << FileToJson.dump() << "\n";

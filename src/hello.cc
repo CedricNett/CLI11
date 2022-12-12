@@ -1,6 +1,8 @@
 #include <CLI/CLI.hpp>
 #include <iostream>
-#include "json.hpp"
+#include <nlohmann/json.hpp>
+#include <fstream>
+#include <string>
 
 using namespace std;
 using json = nlohmann::json;
@@ -28,6 +30,19 @@ int main(int argc, char** argv) {
     cout << erste << " + " << zweite << " = " << summe << "\n"; 
 
     cout << filename << "\n";
+
+    ifstream file{filepath};
+
+    if(!file.is_open()){
+        cout << "Error opening file!\n";
+        exit(0);
+    }
+
+    json FileToJson;
+    
+    file >> FileToJson;
+
+    cout << FileToJson.dump() << "\n";
 
     return 0;
 }

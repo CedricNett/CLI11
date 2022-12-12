@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     std::ifstream file{filepath};
 
     if(!file.is_open()){ //Wenn die Datei nicht geöffnet werden kann, dann gib Error aus und brich ab
-        cout << "Error opening file!\n";
+        std::cout << "Error opening file!\n";
         exit(0);
     }
 

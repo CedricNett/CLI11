@@ -42,17 +42,24 @@ int main(int argc, char** argv) {
     std::cout << filename << "\n";
 
     std::ifstream file{filepath};
-
-    if(!file.is_open()){ //Wenn die Datei nicht geöffnet werden kann, dann gib Error aus und brich ab
+    if(!file.is_open()){
         std::cout << "Error opening file!\n";
         exit(0);
     }
 
-    json FileToJson;
+    nlohmann::json database_object;
+    try
+    {
+        database_object = nlohmann::json::parse(file);
+    }
+    catch (nlohmann::json::parse_error& ex)
+    {
+        std::cerr << "parse error at byte " << ex.byte << std::endl;
+    }
 
-    file >> FileToJson;
-
-    std::cout << FileToJson.dump() << "\n"; //Gebe den Inhalt der Datei aus
+    for (auto& element : database_object["Regale"]){
+        std::cout << "Anzahl Lagerplätze: " << element["Anzahl Lagerplätze"] << std::endl;
+    }
 
     return 0;
 }

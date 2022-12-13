@@ -8,7 +8,12 @@ using json = nlohmann::json;
 
 int main(int argc, char** argv) {
 
-    std::cout << "Moin! Hier ist ein kleiner Summierer mit CLI11!" << "\n";
+    std::cout << "Moin! Hier ist ein Lagerhalterungssystem" << "\n" << std::endl;
+
+    CLI::App app{"Schreibe: -r src/lagerhalterung.json \n"};
+
+    /*
+    std::cout << "Moin! Hier ist ein kleiner Summierer mit CLI11!" << "\n" << std::endl;
 
     CLI::App app{"Schreibe: -r test.json ,um den Inhalt einzulesen und ausgeben zu lassen \nUm einen filename einzugeben schreibe: -f ... \nUm eine Rechung durchzuführen schreibe: -e .. -z .."};
 
@@ -21,6 +26,7 @@ int main(int argc, char** argv) {
     app.add_option("-e,--erste_zahl", erste, "A help string"); //Füge eine Zahl hinzu
 
     app.add_option("-z,--zweite_zahl", zweite, "A help string"); //Füge eine zweite Zahl hinzu
+    */
 
     std::string filepath;
 
@@ -35,19 +41,22 @@ int main(int argc, char** argv) {
         return app.exit(e);
     }
 
+    /*
     summe = erste + zweite;
 
-    std::cout << erste << " + " << zweite << " = " << summe << "\n"; //Addiere die beiden hinzugefügten Zahlen
+    std::cout << erste << " + " << zweite << " = " << summe << "\n" << std::endl; //Addiere die beiden hinzugefügten Zahlen
 
-    std::cout << filename << "\n";
+    std::cout << filename << "\n"<< std::endl;
+    */
 
     std::ifstream file{filepath};
     if(!file.is_open()){
-        std::cout << "Error opening file!\n";
+        std::cout << "Error opening file!\n" << std::endl;
         exit(0);
     }
 
     nlohmann::json database_object;
+
     try
     {
         database_object = nlohmann::json::parse(file);
@@ -56,6 +65,12 @@ int main(int argc, char** argv) {
     {
         std::cerr << "parse error at byte " << ex.byte << std::endl;
     }
+
+    /*
+    for (auto& element : database_object["Lager Name"]){
+        std::cout << "Im " << element["Lager Name"] << std::endl;
+    }
+    */
 
     for (auto& element : database_object["Regale"]){
         std::cout << "Anzahl Lagerplätze: " << element["Anzahl Lagerplätze"] << std::endl;

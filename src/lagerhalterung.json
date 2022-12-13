@@ -9,27 +9,27 @@
       "Leere Plätze": 20,
       "Inhalt": [
         "Fernseher",
-        "Radios",
+        "Radio",
         "SAT-Anlage"
       ]
     },
     {
-      "Regal": 1,
+      "Regal": 2,
       "Anzahl Lagerplätze": 30,
       "Leere Plätze": 15,
       "Inhalt": [
         "Fernseher",
-        "Radios",
+        "Radio",
         "SAT-Anlage"
       ]
     },
     {
-      "Regal": 1,
+      "Regal": 3,
       "Anzahl Lagerplätze": 30,
-      "Leere Plätze": 15,
+      "Leere Plätze": 25,
       "Inhalt": [
         "Fernseher",
-        "Radios",
+        "Radio",
         "SAT-Anlage"
       ]
     }

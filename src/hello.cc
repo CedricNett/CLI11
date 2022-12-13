@@ -66,14 +66,24 @@ int main(int argc, char** argv) {
         std::cerr << "parse error at byte " << ex.byte << std::endl;
     }
 
-    /*
-    for (auto& element : database_object["Lager Name"]){
-        std::cout << "Im " << element["Lager Name"] << std::endl;
+    std::cout << "\033[1;31m Platzhalter \033[0m\n" << std::endl;
+/***********************************************************************************************************************************************/
+    for (auto& element : database_object["Regal"]){
+        std::string rest;
+
+        for( rest = element["Inhalt"]; rest < element["Inhalt"];){
+            std::cout << rest << std::endl;
+        }
+
+        std::cout << "Im Regal " << element["Regal"] << " liegen " << rest << " von " << element["Anzahl Lagerplätze"] << std::endl;
     }
-    */
+/***********************************************************************************************************************************************/
+    std::cout << "\033[1;31m Platzhalter \033[0m\n" << std::endl;
 
     for (auto& element : database_object["Regale"]){
-        std::cout << "Anzahl Lagerplätze: " << element["Anzahl Lagerplätze"] << std::endl;
+        //std::cout << "Im Regal "<< element["Regal"] << " liegen " << element[("Anzahl Lagerplätze") - ("Leere Plätze")] << " Waren" << std::endl; det funtzt so net
+        std::cout << "Das Regal " << element["Regal"] << " beinhaltet folgende dinge: " << element["Inhalt"] << std::endl;
+        std::cout << "Es sind " << element["Leere Plätze"] << " von " << element["Anzahl Lagerplätze"] << " Plätze frei \n" << std::endl;
     }
 
     return 0;

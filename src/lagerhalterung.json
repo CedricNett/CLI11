@@ -8,9 +8,11 @@
       "Anzahl Lagerplätze": 40,
       "Leere Plätze": 20,
       "Inhalt": [
-        "Fernseher",
-        "Radio",
-        "SAT-Anlage"
+        {
+          "Fernseher": 2,
+          "Radio": 15,
+          "SAT-Anlage": 3
+        }
       ]
     },
     {
@@ -18,9 +20,11 @@
       "Anzahl Lagerplätze": 30,
       "Leere Plätze": 15,
       "Inhalt": [
-        "Fernseher",
-        "Radio",
-        "SAT-Anlage"
+        {
+          "Fernseher": 5,
+          "Radio": 5,
+          "SAT-Anlage": 5
+        }
       ]
     },
     {
@@ -28,9 +32,11 @@
       "Anzahl Lagerplätze": 30,
       "Leere Plätze": 25,
       "Inhalt": [
-        "Fernseher",
-        "Radio",
-        "SAT-Anlage"
+        {
+          "Fernseher": 10,
+          "Radio": 7,
+          "SAT-Anlage": 8
+        }
       ]
     }
   ]

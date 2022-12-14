@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Add Project Attributes
-project(  hello.cc
+project(  lagerhalterungsystem.cc
           LANGUAGES CXX
           DESCRIPTION "Shows the integration of CLI11"
           HOMEPAGE_URL "http://vorlesung.nabla-b.engineering"
@@ -31,6 +31,6 @@ if(NOT nlohmann_json_FOUND)
     FetchContent_MakeAvailable(nlohmann_json)
 endif()
 
-add_executable( ${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/src/hello.cc" ) 
+add_executable( ${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/src/lagerhalterungsystem.cc" ) 
 
 target_link_libraries( ${PROJECT_NAME} CLI11::CLI11 nlohmann_json::nlohmann_json)

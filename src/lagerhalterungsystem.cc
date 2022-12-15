@@ -66,8 +66,10 @@ int main(int argc, char** argv){
 
         leere_plaetze = anzahl_plaetze - belegte_plaetze;
 
+        //Hier wird der Inhalt ausgegeben
         std::cout << "Das Regal " << element["Regal"] << " beinhaltet folgende dinge: " << element["Inhalt"] << std::endl;
 
+        //Hier werden die restlichen Lagerplätze ausgegebnen
         std::cout << "Es sind " << leere_plaetze << " von " << anzahl_plaetze << " Plätze frei\n" << std::endl;
     }
 

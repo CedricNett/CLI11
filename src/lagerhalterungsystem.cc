@@ -78,6 +78,9 @@ int main(int argc, char** argv){
     }
     */
 
+   std::cout << "\033[1;31mHier sollte das Zählen aus dem Inhalt kommen:\033[0m\n" << std::endl;
+
+
     //Ändern des Inhaltes der eingelesenen Datei
     for (auto& change : database_object["Regale"])
     {

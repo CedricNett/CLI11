@@ -36,6 +36,7 @@ int main(int argc, char** argv){
     }
 
     std::ifstream file{filepath};
+
     if(!file.is_open())
     {
         std::cout << "Error opening file!\n" << std::endl;
@@ -53,11 +54,10 @@ int main(int argc, char** argv){
         std::cerr << "parse error at byte " << ex.byte << std::endl;
     }
 
-    //Inhalt der Regale wird ausgegeben
-    for (auto& element : database_object["Regale"])
-    {
-        std::cout << "Das Regal " << element["Regal"] << " beinhaltet folgende dinge: " << element["Inhalt"] << std::endl;
 
+        //Inhalt der Regale wird ausgegeben
+    for (auto& element : database_object["Regale"])
+        {
         int belegte_plaetze, anzahl_plaetze, leere_plaetze;
 
         belegte_plaetze = element["Inhalt"].size();
@@ -66,31 +66,34 @@ int main(int argc, char** argv){
 
         leere_plaetze = anzahl_plaetze - belegte_plaetze;
 
-        //std::cout << "Es sind " << leere_plaetze << " Plätze frei" <<  "\033[1;31mRechnerisch: \033[0m\n" << std::endl;
+        std::cout << "Das Regal " << element["Regal"] << " beinhaltet folgende dinge: " << element["Inhalt"] << std::endl;
 
         std::cout << "Es sind " << leere_plaetze << " von " << anzahl_plaetze << " Plätze frei\n" << std::endl;
     }
 
-   std::cout << "\033[1;31mHier sollte das Zählen aus dem Inhalt kommen:\033[0m\n" << std::endl;
-
-
     //Ändern des Inhaltes der eingelesenen Datei
     for (auto& change : database_object["Regale"])
     {
-        std::cout << "Möchten Sie den Inhalt: " <<change["Inhalt"] << " ändern?" << " Neuer Name: "  << std::endl; 
+        std::cout << "Möchten Sie den Inhalt: " << change["Inhalt"] << " ändern?" << " Neuer Name: "  << std::endl;
+
         std::cin >> change["Inhalt"];
+
         std::cout << "\nDer geänderte Inhalt heißt: " << change["Inhalt"] << "\n" << std::endl;
     }
 
     //Speichern des Inhaltes der geänderten, eingelesenen Datei
     std::string speicherpfad{};
+
     std::cout << "Name der Datei: ";
+
     std::cin >> speicherpfad;
     
-    std::cout << "\nSpeicherpfad: /CLI11/" << speicherpfad << std::endl;    //Nur der Speicherpfad im Terminal
+    std::cout << "\nSpeicherpfad: /CLI11/" << speicherpfad << std::endl;    //Nur der Speicherpfad im Terminal ausgeben
 
     std::ofstream save_as{speicherpfad};
+
     save_as << database_object.dump();
+
     save_as.close();
 
     return 0;

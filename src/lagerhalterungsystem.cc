@@ -57,26 +57,19 @@ int main(int argc, char** argv){
     for (auto& element : database_object["Regale"])
     {
         std::cout << "Das Regal " << element["Regal"] << " beinhaltet folgende dinge: " << element["Inhalt"] << std::endl;
-        std::cout << "Es sind " << element["Leere Plätze"] << " von " << element["Anzahl Lagerplätze"] << " Plätze frei" << "\033[1;31m (Ausgebenen)\033[0m\n" << std::endl;
-    }
 
-    /*
-    //Freie Plätze sollen gezählt werden, anhand Stückgut des Inhaltes (1)
-    for (auto zaehlen = database_object["Inhalt"].begin(); zaehlen != database_object["Inhalt"].end(); ++zaehlen)
-    {
-        int num = stoi(zaehlen["Inhalt"]);
+        int belegte_plaetze, anzahl_plaetze, leere_plaetze;
 
-        std::cout << "Es sind " << *zaehlen << " Plätze frei" <<  "\033[1;31mRechnerisch: \033[0m\n" << std::endl;
+        belegte_plaetze = element["Inhalt"].size();
+
+        anzahl_plaetze = element["Anzahl Lagerplätze"];
+
+        leere_plaetze = anzahl_plaetze - belegte_plaetze;
+
+        //std::cout << "Es sind " << leere_plaetze << " Plätze frei" <<  "\033[1;31mRechnerisch: \033[0m\n" << std::endl;
+
+        std::cout << "Es sind " << leere_plaetze << " von " << anzahl_plaetze << " Plätze frei\n" << std::endl;
     }
-    */
-    
-    /*
-    //Freie Plätze sollen gezählt werden, anhand Stückgut des Inhaltes (2)
-    for (auto count = database_object("Inhalt"))
-    {
-        std::cout << "Es sind " << count << " Plätze frei" << "\033[1;31mRechnerisch: \033[0m\n" << std::endl;
-    }
-    */
 
     //Ändern des Inhaltes der eingelesenen Datei
     for (auto& change : database_object["Regale"])
@@ -90,7 +83,9 @@ int main(int argc, char** argv){
     std::string speicherpfad{};
     std::cout << "Name der Datei: ";
     std::cin >> speicherpfad;
-    std::cout << "\nSpeicherpfad: /CLI11/" << speicherpfad << std::endl;
+    
+    std::cout << "\nSpeicherpfad: /CLI11/" << speicherpfad << std::endl;    //Nur der Speicherpfad im Terminal
+
     std::ofstream save_as{speicherpfad};
     save_as << database_object.dump();
     save_as.close();

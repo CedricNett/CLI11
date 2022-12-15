@@ -14,7 +14,7 @@ int main(int argc, char** argv){
 
     std::string filepath, inhalt, zaehlen, aendern;
 
-    //Irgendwie die options als "starter" für for(...) benennen? 
+    //Irgendwie die options (oder flags) als "starter" für for(...) benennen? 
     app.add_option("-i,--inhalt", inhalt, "Zeug"); //Inhalt ausgeben lassen
 
     app.add_option("-z,--zählen", zaehlen, "mehr Zeug"); //Inhalt zählen lassen

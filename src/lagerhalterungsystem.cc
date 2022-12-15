@@ -52,10 +52,12 @@ int main(int argc, char** argv){
     catch (nlohmann::json::parse_error& ex)
     {
         std::cerr << "parse error at byte " << ex.byte << std::endl;
+
+        std::exit(EXIT_FAILURE);
     }
 
 
-        //Inhalt der Regale wird ausgegeben
+    //Inhalt der Regale wird ausgegeben
     for (auto& element : database_object["Regale"])
     {
         int belegte_plaetze, anzahl_plaetze, leere_plaetze;
@@ -94,7 +96,7 @@ int main(int argc, char** argv){
 
     std::ofstream save_as{speicherpfad};
 
-    save_as << database_object.dump();
+    save_as << database_object.dump(4);
 
     save_as.close();
 

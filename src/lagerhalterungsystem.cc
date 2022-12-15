@@ -57,7 +57,7 @@ int main(int argc, char** argv){
 
         //Inhalt der Regale wird ausgegeben
     for (auto& element : database_object["Regale"])
-        {
+    {
         int belegte_plaetze, anzahl_plaetze, leere_plaetze;
 
         belegte_plaetze = element["Inhalt"].size();

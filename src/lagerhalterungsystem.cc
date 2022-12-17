@@ -75,6 +75,7 @@ int main(int argc, char** argv){
         std::cout << "Es sind " << leere_plaetze << " von " << anzahl_plaetze << " Plätze frei\n" << std::endl;
     }
 
+    /*
     //Ändern des Inhaltes der eingelesenen Datei
     for (auto& change : database_object["Regale"])
     {
@@ -83,8 +84,70 @@ int main(int argc, char** argv){
         std::cin >> change["Inhalt"];
 
         std::cout << "\nDer geänderte Inhalt heißt: " << change["Inhalt"] << "\n" << std::endl;
+
+    }
+    */
+
+    //Ändern des Inhaltes der eingelesenen Datei - Versuch den Inhalt einzeln zu verändern
+    for (auto& change2 : database_object["Regale"])
+    {
+        std::cout << "Welchen Inhalt möchten Sie ändern?" << "\n";
+
+        std::cout << change2["Inhalt"] << "\n";
+
+        std::string vergleichsinhalt;
+
+        std::cin >> vergleichsinhalt;
+
+        for (auto& inhalt : change2["Inhalt"])
+        {
+            std::cout << "vergleichsinhalt = " << vergleichsinhalt << " inhalt = " << inhalt << std::endl;
+
+            if(vergleichsinhalt == inhalt)
+            {
+                std::cout << "Hier bin ich" << std::endl;
+
+                std::cin >> inhalt;
+
+                std::cout << inhalt << std::endl;
+
+                break;
+            }
+
+            std::cout << "Nach if abfrage: " << inhalt <<std::endl;
+
+
+
+            
+            /*
+            if(inhalt == change2["Inhalt"])
+            {
+                std::cout << "Sie möchten den Inhalt Radios ändern? Neuer Name:" << std::endl;
+
+                std::cin >> inhalt;
+            }
+
+            if(inhalt == change2["Inhalt"])
+            {
+                std::cout << "Sie möchten den Inhalt SAT-Anlage ändern? Neuer Name:" << std::endl;
+
+                std::cin >> inhalt;
+            }
+            */
+
+            std::cout << " Ende schleife inhalt \n" << std::endl;
+        
+        }
+
+        std::cout << "Neuer Inhalt: " << change2["Inhalt"] << std::endl;
+
+        std::cout << " Ende schleife member " << std::endl;
+
     }
 
+    std::cout << " Ende " << std::endl;
+
+    /*
     //Speichern des Inhaltes der geänderten, eingelesenen Datei
     std::string speicherpfad{};
 
@@ -99,6 +162,7 @@ int main(int argc, char** argv){
     save_as << database_object.dump(4);
 
     save_as.close();
+    */
 
     return 0;
 }

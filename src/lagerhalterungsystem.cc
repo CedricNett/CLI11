@@ -12,7 +12,9 @@ int main(int argc, char** argv){
 
     CLI::App app{"Schreibe: -r src/lagerhalterung.json \n"};
 
-    std::string filepath, inhalt, zaehlen, aendern;
+    std::string filepath, inhalt, zaehlen, aendern, dazu_tun;
+
+    int nummer;
 
     //Irgendwie die options (oder flags) als "starter" für for(...) benennen? 
     app.add_option("-i,--inhalt", inhalt, "Zeug"); //Inhalt ausgeben lassen
@@ -21,6 +23,9 @@ int main(int argc, char** argv){
 
     app.add_option("-s,--ändern", aendern, "ganz viel Zeug"); //Inhalt ändern und in neuer Datei Speichern
 
+    app.add_option("-a,--add", dazu_tun, "add"); //Zeug
+
+    app.add_option("-n,--nummer", nummer, "Regalnummer zum hinzufügen");
 
     app.add_option("-r,--read", filepath, "Path to config file")
         ->required()
@@ -88,6 +93,7 @@ int main(int argc, char** argv){
     }
     */
 
+
     //Ändern des Inhaltes der eingelesenen Datei - Versuch den Inhalt einzeln zu verändern
     for (auto& change2 : database_object["Regale"])
     {
@@ -99,26 +105,33 @@ int main(int argc, char** argv){
 
         std::cin >> vergleichsinhalt;
 
+        if(change2["Regal"] == nummer)
+        {
+           change2["Inhalt"].push_back(dazu_tun);
+        }
+
         for (auto& inhalt : change2["Inhalt"])
         {
-            std::cout << "vergleichsinhalt = " << vergleichsinhalt << " inhalt = " << inhalt << std::endl;
+            //std::cout << "vergleichsinhalt = " << vergleichsinhalt << " inhalt = " << inhalt << std::endl;
 
             if(vergleichsinhalt == inhalt)
             {
-                std::cout << "Hier bin ich" << std::endl;
+                //std::cout << "Hier bin ich" << std::endl;
 
                 std::cin >> inhalt;
 
                 std::cout << inhalt << std::endl;
 
-                break;
+                
+
+
+
+
+
             }
 
-            std::cout << "Nach if abfrage: " << inhalt <<std::endl;
+            //std::cout << "Nach if abfrage: " << inhalt <<std::endl;
 
-
-
-            
             /*
             if(inhalt == change2["Inhalt"])
             {
@@ -135,19 +148,19 @@ int main(int argc, char** argv){
             }
             */
 
-            std::cout << " Ende schleife inhalt \n" << std::endl;
+            //std::cout << " Ende schleife inhalt \n" << std::endl;
         
         }
 
         std::cout << "Neuer Inhalt: " << change2["Inhalt"] << std::endl;
 
-        std::cout << " Ende schleife member " << std::endl;
+        //std::cout << " Ende schleife member " << std::endl;
 
     }
 
-    std::cout << " Ende " << std::endl;
+    //std::cout << " Ende " << std::endl;
 
-    /*
+    
     //Speichern des Inhaltes der geänderten, eingelesenen Datei
     std::string speicherpfad{};
 
@@ -155,14 +168,14 @@ int main(int argc, char** argv){
 
     std::cin >> speicherpfad;
     
-    std::cout << "\nSpeicherpfad: /CLI11/" << speicherpfad << std::endl;    //Nur der Speicherpfad im Terminal ausgeben
+    std::cout << "\nSpeicherpfad: /CLI11/" << speicherpfad << std::endl;    //Nur der Speicherpfad im Terminal ausgeben // Weglassen
 
     std::ofstream save_as{speicherpfad};
 
     save_as << database_object.dump(4);
 
     save_as.close();
-    */
+    
 
     return 0;
 }

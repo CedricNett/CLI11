@@ -9,7 +9,7 @@ using json = nlohmann::json;
 /*
 Vorab zu diesem Programm. Dieses ist in Zussammenarbeit in der Vorlesung entstanden und damit nicht meine eigene Kreation!
 
-Ich habe versucht mit Kommentaren manche aufrufe zu erkläten, diese enthalten sicherlich Fehler!
+Ich habe versucht mit Kommentaren manche aufrufe zu erklären, diese enthalten sicherlich Fehler!
 
 Zum Ablauf, wenn ihr diese clonen solltet:
 
@@ -20,7 +20,7 @@ Als Beispiel folgende aufrufe 1 zu 1 im Terminal "hinschreiben":
     Fernseher
     "Ändere Fernseher zu Test 1"
 
-    a                                   ( einfach um diesen direkt zu überspringen das ist ein Bug bzw. ein Featur :D )
+    a                                   ( einfach um diesen direkt zu überspringen das ist ein Bug bzw. ein feature :D )
 
     SAT-Anlage
     "Ändere SAT-Anlage zu Test 2"

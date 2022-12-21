@@ -6,31 +6,58 @@
 
 using json = nlohmann::json;
 
+/*
+Vorab zu diesem Programm. Dieses ist in Zussammenarbeit in der Vorlesung entstanden und damit nicht meine eigene Kreation!
+
+Ich habe versucht mit Kommentaren manche aufrufe zu erkläten, diese enthalten sicherlich Fehler!
+
+Zum Ablauf, wenn ihr diese clonen solltet:
+
+Als Beispiel folgende aufrufe 1 zu 1 im Terminal "hinschreiben":
+
+    ./build/lagerhalterungsystem.cc -r src/lagerhalterung.json -a TEST_in_Regal_2 -n 2
+
+    Fernseher
+    "Ändere Fernseher zu Test 1"
+
+    a                                   ( einfach um diesen direkt zu überspringen das ist ein Bug bzw. ein Featur :D )
+
+    SAT-Anlage
+    "Ändere SAT-Anlage zu Test 2"
+  
+    TEST
+
+Damit solltet ihr eine neue .json namens TEST erhalten. Viel Spaß!
+*/
+
 int main(int argc, char** argv){
 
     std::cout << "Moin! Hier ist ein Lagerhalterungssystem" << "\n" << std::endl;
 
     CLI::App app{"Schreibe: -r src/lagerhalterung.json \n"};
 
-    std::string filepath, inhalt, zaehlen, aendern, dazu_tun;
+    std::string filepath, inhalt, zaehlen, aendern, neuerinhalt; //Strings für die Options
 
-    int nummer;
+    int regalnummer; //Integer für die Options
+ 
+    //Für einen späteres Update
+    /*
+    app.add_option("-i,--inhalt", inhalt, "Hierdurch soll der Inhalt ausgegeben werden");
 
-    //Irgendwie die options (oder flags) als "starter" für for(...) benennen? 
-    app.add_option("-i,--inhalt", inhalt, "Zeug"); //Inhalt ausgeben lassen
+    app.add_option("-z,--zählen", zaehlen, "Hierdurch soll der Inhalt der Regale gezählt werden");
 
-    app.add_option("-z,--zählen", zaehlen, "mehr Zeug"); //Inhalt zählen lassen
+    app.add_option("-s,--ändern", aendern, "Hierdurch soll die File gespeichert werden"); //Inhalt ändern und in neuer Datei Speichern
+    */
 
-    app.add_option("-s,--ändern", aendern, "ganz viel Zeug"); //Inhalt ändern und in neuer Datei Speichern
+    app.add_option("-a,--add", neuerinhalt, "Füge einen Neuen Inhalt den Regalen hinzu");
 
-    app.add_option("-a,--add", dazu_tun, "add"); //Zeug
-
-    app.add_option("-n,--nummer", nummer, "Regalnummer zum hinzufügen");
+    app.add_option("-n,--nummer", regalnummer, "Regalnummer mit angeben, damit der neue Inhalt korrekt gespeichert wrid");
 
     app.add_option("-r,--read", filepath, "Path to config file")
         ->required()
         ->check(CLI::ExistingFile);
 
+    //try & catch Funktion, sollte ein Parse Error auftreten, so wird die "app" geschlossen
     try
     {
         app.parse(argc, argv);
@@ -50,6 +77,7 @@ int main(int argc, char** argv){
 
     nlohmann::json database_object;
 
+    //try & catch Funktion, sollte die file nicht dem "database_object" übergeben werden, so schreibe den Fehler und exit mit Fehler
     try
     {
         database_object = nlohmann::json::parse(file);
@@ -61,121 +89,77 @@ int main(int argc, char** argv){
         std::exit(EXIT_FAILURE);
     }
 
-
     //Inhalt der Regale wird ausgegeben
     for (auto& element : database_object["Regale"])
     {
         int belegte_plaetze, anzahl_plaetze, leere_plaetze;
 
+        //Hier wird durch die Funktion ".size" der Inhalt gezählt und dieser als Integer gesetzt
         belegte_plaetze = element["Inhalt"].size();
 
+        //Hier wird "Anzahl Lagerplätze" aufgerufen und auch als Integer gesetzt
         anzahl_plaetze = element["Anzahl Lagerplätze"];
 
+        //Hier wird er Aktuelle Inhalt, der "Anzahl Lagerplätze" abgezogen. Die zuvor deklarierten Integer werden verrechnet
         leere_plaetze = anzahl_plaetze - belegte_plaetze;
 
-        //Hier wird der Inhalt ausgegeben
+        //Hier wird der Inhalt ausgegeben -Aufgabe 1
         std::cout << "Das Regal " << element["Regal"] << " beinhaltet folgende dinge: " << element["Inhalt"] << std::endl;
 
-        //Hier werden die restlichen Lagerplätze ausgegebnen
+        //Hier werden die restlichen Lagerplätze ausgegebnen -Aufgabe 2
         std::cout << "Es sind " << leere_plaetze << " von " << anzahl_plaetze << " Plätze frei\n" << std::endl;
     }
 
-    /*
-    //Ändern des Inhaltes der eingelesenen Datei
-    for (auto& change : database_object["Regale"])
-    {
-        std::cout << "Möchten Sie den Inhalt: " << change["Inhalt"] << " ändern?" << " Neuer Name: "  << std::endl;
-
-        std::cin >> change["Inhalt"];
-
-        std::cout << "\nDer geänderte Inhalt heißt: " << change["Inhalt"] << "\n" << std::endl;
-
-    }
-    */
-
-
     //Ändern des Inhaltes der eingelesenen Datei - Versuch den Inhalt einzeln zu verändern
+    //Hier fangen die Ineinander arbeitenden for-Schleifen an
+    //Im ersten durchlauf wird "Regal": 1 durchgelaufen, nach dem kompletten durchlauf folgt "Regal": 2 und das gleiche für "Regal": 3
     for (auto& change2 : database_object["Regale"])
     {
         std::cout << "Welchen Inhalt möchten Sie ändern?" << "\n";
 
         std::cout << change2["Inhalt"] << "\n";
 
-        std::string vergleichsinhalt;
+        std::string vergleichsinhalt;   //Hier wird ein string namens vergleichsinhalt für die for-Schleife erstellt
 
-        std::cin >> vergleichsinhalt;
+        std::cin >> vergleichsinhalt;   //Hier soll der Inhalt angeben werden, welcher entweder geändert werden soll
+                                        //Oder durch eine "Fehleingabe" (feature :D ) übersprungen werden, sollte in dem Regal etwas "hinzugefügt werden"
 
-        if(change2["Regal"] == nummer)
+        //Hier wird durch die Option das "Ziel-Regal" angegeben; Mit dem aufruf -n 
+        if(change2["Regal"] == regalnummer)
         {
-           change2["Inhalt"].push_back(dazu_tun);
+            //Hier wird über die Funktion ".push_back" ein neuer Inhalt hinzugefügt, welcher zuvor als Option mit übergeben werden muss -Aufgabe 3.1
+            change2["Inhalt"].push_back(neuerinhalt);   //Mit dem aufruf -a
         }
 
-        for (auto& inhalt : change2["Inhalt"])
+        for (auto& inhalt : change2["Inhalt"])  //Hier wird in dem Inhalt "reingeschaut"
         {
-            //std::cout << "vergleichsinhalt = " << vergleichsinhalt << " inhalt = " << inhalt << std::endl;
-
-            if(vergleichsinhalt == inhalt)
+            if(vergleichsinhalt == inhalt)  //sollte der Vergleichsinhalt dem Inhalt entsprechen, so wird das "if" ausgeführt
             {
-                //std::cout << "Hier bin ich" << std::endl;
+                std::cin >> inhalt;  //Hier soll ein Inhalt geändert werden -Aufgabe 3.2
 
-                std::cin >> inhalt;
-
-                std::cout << inhalt << std::endl;
-
-                
-
-
-
-
+                std::cout << "Der neue geänderte Inhalt heißt: " << inhalt << std::endl;   //Terminal ausgabe um den geänderten Inhalt zu sehen
 
             }
-
-            //std::cout << "Nach if abfrage: " << inhalt <<std::endl;
-
-            /*
-            if(inhalt == change2["Inhalt"])
-            {
-                std::cout << "Sie möchten den Inhalt Radios ändern? Neuer Name:" << std::endl;
-
-                std::cin >> inhalt;
-            }
-
-            if(inhalt == change2["Inhalt"])
-            {
-                std::cout << "Sie möchten den Inhalt SAT-Anlage ändern? Neuer Name:" << std::endl;
-
-                std::cin >> inhalt;
-            }
-            */
-
-            //std::cout << " Ende schleife inhalt \n" << std::endl;
-        
         }
 
         std::cout << "Neuer Inhalt: " << change2["Inhalt"] << std::endl;
 
-        //std::cout << " Ende schleife member " << std::endl;
-
     }
 
-    //std::cout << " Ende " << std::endl;
-
-    
-    //Speichern des Inhaltes der geänderten, eingelesenen Datei
+    //Speichern des Inhaltes der geänderten, eingelesenen Datei -Aufgabe 4
     std::string speicherpfad{};
 
     std::cout << "Name der Datei: ";
 
     std::cin >> speicherpfad;
     
-    std::cout << "\nSpeicherpfad: /CLI11/" << speicherpfad << std::endl;    //Nur der Speicherpfad im Terminal ausgeben // Weglassen
-
-    std::ofstream save_as{speicherpfad};
-
+    std::cout << "\nSpeicherpfad: /CLI11/" << speicherpfad << std::endl;    //Optional. Gibt nur im Terminal den Speicherpfad aus, damit es "schön" aussieht!
+                                                                            //Dieser muss je nach dem geändert werden, sollte euer Ordner "wo anders liegen"
+    std::ofstream save_as{speicherpfad};                                    //bzw. sollte die Datei "anders heißen"
+                                                                            //Beispiel: "\nSpeicherpfad: Server/maxmustermann/Projekte/Lagersysteme/" usw.
     save_as << database_object.dump(4);
-
+                                        //Warum auch immer wird die Reihenfolge bei neuem Speichern nicht eingehalten --Gerne Lösungen dazu Teilen!
     save_as.close();
     
-
     return 0;
 }

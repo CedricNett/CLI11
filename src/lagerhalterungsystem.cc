@@ -5,15 +5,20 @@
 #include <string>
 
 using json = nlohmann::json;
-nlohmann::json database_object;
-
+//nlohmann::json database_object;
+//                                          zum starten       ./build/lagerhalterungsystem.cc -r src/lagerhalterung.json      ausgeben lassen! 
 struct statemachine {
-    statemachine(json& database_object);
+    //statemachine(json& database_object);
     //    : mein_json{database_object};
-    //json& mein_json;
+    json& mein_json;
+
+    statemachine(json& database_object)
+        :mein_json{database_object} {
+        std::cout << "Konstruktor called with Initilizerlist!\n";
+    }
 
     void aendern() {
-        for (auto& change : database_object["Regale"])
+        for (auto& change : mein_json["Regale"])
         {
             int regalnummer; //Integer für die Options
 
@@ -46,14 +51,14 @@ struct statemachine {
                 }
             }
 
-            std::cout << "Neuer Inhalt: " << change ["Inhalt"] << std::endl;
+            std::cout << "Neuer Inhalt: " << change ["Inhalt"] << "\n" << std::endl;
 
         }
         ausgeben();
     }
 
     void ausgeben() {
-        for (auto& element : database_object["Regale"])
+        for (auto& element : mein_json["Regale"])
         {
             int belegte_plaetze, anzahl_plaetze, leere_plaetze;
 
@@ -85,13 +90,15 @@ struct statemachine {
         //Dieser muss je nach dem geändert werden, sollte euer Ordner "wo anders liegen"
         std::ofstream save_as{speicherpfad};                                    //bzw. sollte die Datei "anders heißen"
         //Beispiel: "\nSpeicherpfad: Server/maxmustermann/Projekte/Lagersysteme/" usw.
-        save_as << database_object.dump(4);
+        save_as << mein_json.dump(4);
         //Warum auch immer wird die Reihenfolge bei neuem Speichern nicht eingehalten --Gerne Lösungen dazu Teilen!
         save_as.close();
     }
 };
 
 int main(int argc, char** argv) {
+
+    nlohmann::json database_object;
 
     std::cout << "Moin! Hier ist ein Lagerhalterungssystem" << "\n" << std::endl;
 
@@ -133,7 +140,8 @@ int main(int argc, char** argv) {
         std::exit(EXIT_FAILURE);
     }
 
-    statemachine lagerhaltung_statemachine();
+    //statemachine lagerhaltung_statemachine();
+    statemachine lagerhaltung_statemachine{database_object};
 
     while(true)
     {
@@ -168,83 +176,5 @@ int main(int argc, char** argv) {
         {
             lagerhaltung_statemachine.speichern();
         }
-
     }
-
-    /*
-    //Inhalt der Regale wird ausgegeben
-    for (auto& element : database_object["Regale"])
-    {
-        int belegte_plaetze, anzahl_plaetze, leere_plaetze;
-
-        //Hier wird durch die Funktion ".size" der Inhalt gezählt und dieser als Integer gesetzt
-        belegte_plaetze = element["Inhalt"].size();
-
-        //Hier wird "Anzahl Lagerplätze" aufgerufen und auch als Integer gesetzt
-        anzahl_plaetze = element["Anzahl Lagerplätze"];
-
-        //Hier wird er Aktuelle Inhalt, der "Anzahl Lagerplätze" abgezogen. Die zuvor deklarierten Integer werden verrechnet
-        leere_plaetze = anzahl_plaetze - belegte_plaetze;
-
-        //Hier wird der Inhalt ausgegeben -Aufgabe 1
-        std::cout << "Das Regal " << element["Regal"] << " beinhaltet folgende dinge: " << element["Inhalt"] << std::endl;
-
-        //Hier werden die restlichen Lagerplätze ausgegebnen -Aufgabe 2
-        std::cout << "Es sind " << leere_plaetze << " von " << anzahl_plaetze << " Plätze frei\n" << std::endl;
-    }
-
-    //Ändern des Inhaltes der eingelesenen Datei - Versuch den Inhalt einzeln zu verändern
-    //Hier fangen die Ineinander arbeitenden for-Schleifen an
-    //Im ersten durchlauf wird "Regal": 1 durchgelaufen, nach dem kompletten durchlauf folgt "Regal": 2 und das gleiche für "Regal": 3
-    for (auto change  : database_object["Regale"])
-    {
-        std::cout << "Welchen Inhalt möchten Sie ändern?" << "\n";
-
-        std::cout < change ["Inhalt"] << "\n";
-
-        std::string vergleichsinhalt;   //Hier wird ein string namens vergleichsinhalt für die for-Schleife erstellt
-
-        std::cin >> vergleichsinhalt;   //Hier soll der Inhalt angeben werden, welcher entweder geändert werden soll
-        //Oder durch eine "Fehleingabe" (feature :D ) übersprungen werden, sollte in dem Regal etwas "hinzugefügt werden"
-
-        //Hier wird durch die Option das "Ziel-Regal" angegeben; Mit dem aufruf -n
-        if change ["Regal"] == regalnummer)
-        {
-            //Hier wird über die Funktion ".push_back" ein neuer Inhalt hinzugefügt, welcher zuvor als Option mit übergeben werden muss -Aufgabe 3.1
-         change ["Inhalt"].push_back(neuerinhalt);   //Mit dem aufruf -a
-        }
-
-        for (auto& inhalt  change ["Inhalt"])  //Hier wird in dem Inhalt "reingeschaut"
-        {
-            if(vergleichsinhalt == inhalt)  //sollte der Vergleichsinhalt dem Inhalt entsprechen, so wird das "if" ausgeführt
-            {
-                std::cin >> inhalt;  //Hier soll ein Inhalt geändert werden -Aufgabe 3.2
-
-                std::cout << "Der neue geänderte Inhalt heißt: " << inhalt << std::endl;   //Terminal ausgabe um den geänderten Inhalt zu sehen
-
-            }
-        }
-
-        std::cout << "Neuer Inhalt: " < change ["Inhalt"] << std::endl;
-
-    }
-
-    //Speichern des Inhaltes der geänderten, eingelesenen Datei -Aufgabe 4
-    std::string speicherpfad{};
-
-    std::cout << "Name der Datei: ";
-
-    std::cin >> speicherpfad;
-
-    std::cout << "\nSpeicherpfad: /CLI11/" << speicherpfad << std::endl;    //Optional. Gibt nur im Terminal den Speicherpfad aus, damit es "schön" aussieht!
-    //Dieser muss je nach dem geändert werden, sollte euer Ordner "wo anders liegen"
-    std::ofstream save_as{speicherpfad};                                    //bzw. sollte die Datei "anders heißen"
-    //Beispiel: "\nSpeicherpfad: Server/maxmustermann/Projekte/Lagersysteme/" usw.
-    save_as << database_object.dump(4);
-    //Warum auch immer wird die Reihenfolge bei neuem Speichern nicht eingehalten --Gerne Lösungen dazu Teilen!
-    save_as.close();
-
-    return 0;
-
-    */
 }

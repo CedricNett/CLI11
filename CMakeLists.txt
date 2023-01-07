@@ -7,16 +7,11 @@ project(  lagerhalterungsystem.cc
           HOMEPAGE_URL "http://vorlesung.nabla-b.engineering"
 )
 
-#project(  static_machine_lagersystem.cc
-#          LANGUAGES CXX
-#          DESCRIPTION "Shows the integration of an Statemachine"
-#          HOMEPAGE_URL "http://vorlesung.nabla-b.engineering"
-#)
+include(FetchContent)
 
 # Add CLI11 Library to Project
 find_package(cli11 QUIET)
 if(NOT cli11_FOUND)
-    include(FetchContent)
     FetchContent_Declare(
         cli11
         GIT_REPOSITORY https://github.com/CLIUtils/CLI11
@@ -28,7 +23,6 @@ endif()
 # Add nlohmann.json #https://json.nlohmann.me/integration/cmake/#supporting-both
 find_package(nlohmann_json QUIET)
 if(NOT nlohmann_json_FOUND)
-    include(FetchContent)
     FetchContent_Declare(
         nlohmann_json
         GIT_REPOSITORY https://github.com/nlohmann/json
@@ -38,7 +32,5 @@ if(NOT nlohmann_json_FOUND)
 endif()
 
 add_executable( ${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/src/lagerhalterungsystem.cc" )
-
-#add_executable( ${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/src/static_machine_lagersystem.cc" )
 
 target_link_libraries( ${PROJECT_NAME} CLI11::CLI11 nlohmann_json::nlohmann_json)

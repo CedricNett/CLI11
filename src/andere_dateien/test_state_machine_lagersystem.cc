@@ -1,4 +1,3 @@
-#include <CLI/CLI.hpp>
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -86,14 +85,8 @@ namespace test{
                     retrun 1;
             }
 
-            state_machine(int argc, char** argv){
+            state_machine(){
                 naechster_status = leerlauf;
             }
     };
-}
-
-int main(int argc, char** argv){
-    test::state_machine states{argc, argv};
-
-    return states.exec();
 }

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Add Project Attributes
-project(  lagerhalterungsystem.cc
+project(  lagerhalterungsystem
           LANGUAGES CXX
           DESCRIPTION "Shows the integration of CLI11"
           HOMEPAGE_URL "http://vorlesung.nabla-b.engineering"

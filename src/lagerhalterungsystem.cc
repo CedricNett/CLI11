@@ -14,7 +14,7 @@ struct statemachine {
 
     statemachine(json& database_object)
         :mein_json{database_object} {
-        std::cout << "Konstruktor called with Initilizerlist!\n";
+        //std::cout << "Konstruktor called with Initilizerlist!\n";
     }
 
     void aendern() {

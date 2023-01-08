@@ -18,43 +18,60 @@ struct statemachine {
     }
 
     void aendern() {
-        for (auto& change : mein_json["Regale"])
-        {
+
+        ausgeben();
+
             int regalnummer; //Integer für die Options
 
-            std::string neuerinhalt;
+            std::string neuerinhalt,alterinhalt,wahl;
 
-            std::cout << "Welchen Inhalt möchten Sie ändern?" << "\n";
+            std::cout << "In welchem Regal möchetn Sie etwas ändern?" << "\n";
 
-            std::cout << change ["Inhalt"] << "\n";
+            std::cin>> regalnummer;
 
-            std::string vergleichsinhalt;   //Hier wird ein string namens vergleichsinhalt für die for-Schleife erstellt
-
-            std::cin >> vergleichsinhalt;   //Hier soll der Inhalt angeben werden, welcher entweder geändert werden soll
-            //Oder durch eine "Fehleingabe" (feature :D ) übersprungen werden, sollte in dem Regal etwas "hinzugefügt werden"
-
-            //Hier wird durch die Option das "Ziel-Regal" angegeben; Mit dem aufruf -n
-            if(change ["Regal"] == regalnummer)
+            for (auto& change : mein_json["Regale"])
             {
-                //Hier wird über die Funktion ".push_back" ein neuer Inhalt hinzugefügt, welcher zuvor als Option mit übergeben werden muss -Aufgabe 3.1
-                change ["Inhalt"].push_back(neuerinhalt);   //Mit dem aufruf -a
-            }
+                if(change ["Regal"] == regalnummer)
+                {          
+                    std::cout << change["Inhalt"] << "\n"; 
 
-            for (auto& inhalt : change ["Inhalt"])  //Hier wird in dem Inhalt "reingeschaut"
-            {
-                if(vergleichsinhalt == inhalt)  //sollte der Vergleichsinhalt dem Inhalt entsprechen, so wird das "if" ausgeführt
-                {
-                    std::cin >> inhalt;  //Hier soll ein Inhalt geändert werden -Aufgabe 3.2
+                    std::cout << "Welcher Inhalt soll geändert werden?" << "\n"; 
 
-                    std::cout << "Der neue geänderte Inhalt heißt: " << inhalt << std::endl;   //Terminal ausgabe um den geänderten Inhalt zu sehen
+                    std::cin>> alterinhalt;
 
+                    for (auto& aktuellinhalt : change["Inhalt"] )
+                    {
+                        if (aktuellinhalt==alterinhalt)
+                        {   
+                            std::cout << aktuellinhalt << "\n"; 
+
+                            std::cout << "Neuer Inhalt:" << "\n"; 
+
+                            std::cin >> neuerinhalt;
+
+                            aktuellinhalt =neuerinhalt;
+
+                            return;
+                        }                                                                                      
+                    }
+
+                    std::cout <<"Leider wurde der Inhalt " << alterinhalt <<" nicht gefunden!!! Soll er hinzugefügt werden?? [J/N]" << "\n";
+
+                    std::cin >> wahl;
+
+                    if (wahl == "J")
+                    {
+                        change ["Inhalt"].push_back(alterinhalt);
+                        break;
+                    }
+                    
+                    else
+                    {
+                        std::cout << "Dann eben nicht!" << "\n";
+                        break;
+                    }                          
                 }
             }
-
-            std::cout << "Neuer Inhalt: " << change ["Inhalt"] << "\n" << std::endl;
-
-        }
-        ausgeben();
     }
 
     void ausgeben() {
@@ -93,6 +110,10 @@ struct statemachine {
         save_as << mein_json.dump(4);
         //Warum auch immer wird die Reihenfolge bei neuem Speichern nicht eingehalten --Gerne Lösungen dazu Teilen!
         save_as.close();
+    }
+
+    void exit() {
+        std::exit(EXIT_FAILURE); 
     }
 };
 
@@ -143,22 +164,25 @@ int main(int argc, char** argv) {
     //statemachine lagerhaltung_statemachine();
     statemachine lagerhaltung_statemachine{database_object};
 
+    std::cout << "Hallo und Willkommen in unserem Lagersytem!" << std::endl;
+
     while(true)
     {
-        std::cout << "Hallo und Willkommen in unserem Lagersytem!" << std::endl;
+        //std::cout << "Hallo und Willkommen in unserem Lagersytem!" << std::endl;
 
         int aktueller_state = 0;
 
-        while((aktueller_state < 1) || (aktueller_state > 3 ))
+        while((aktueller_state < 1) || (aktueller_state > 4 ))
         {
             std::cout <<    "Du kannst wählen zwischen: \n"
                       <<    "(1) für Inhalt Ändern \n"
                       <<    "(2) für Inhalt Ausgeben \n"
-                      <<    "(3) für Inhalt Speichern" << std::endl;
+                      <<    "(3) für Inhalt Speichern \n" 
+                      <<    "(4) für Exit"  <<std::endl;
 
             std::cin >> aktueller_state;
 
-            if((aktueller_state < 1) || (aktueller_state > 3 ))
+            if((aktueller_state < 1) || (aktueller_state > 4 ))
             {
                 std::cout << "Keine gültige Auswahl!" << std::endl;
             }
@@ -175,6 +199,10 @@ int main(int argc, char** argv) {
         else if(aktueller_state == 3)//Funktion/State Inhalt Speichern
         {
             lagerhaltung_statemachine.speichern();
+        }
+        else if(aktueller_state == 4)
+        {
+            lagerhaltung_statemachine.exit();
         }
     }
 }
